@@ -27,11 +27,13 @@ class my_monitor extends uvm_monitor;
     
   task monitor();
     @(`MON_IF);
-    req.reset=MON_IF.reset;
-    req.enable= MON_IF.enable;
-    req.data_in= MON_IF.data_in;
-    req.addr= MON_IF.addr;
-    req.data_out= MON_IF.data_out;
+    req.reset=`MON_IF.reset;
+    req.we=`MON_IF.we;
+    req.re=`MON_IF.re;
+    req.waddr=`MON_IF.waddr;
+    req.raddr=`MON_IF.raddr;
+    req.data_in=`MON_IF.data_in;
+    req.data_out=`MON_IF.data_out;
     req.print();
     mon_ap.write(req);
   endtask
