@@ -27,9 +27,11 @@ class my_driver extends uvm_driver#(my_transaction);
     @(`DRV_IF);
     seq_item_port.get_next_item(req);
     req.print();
-    `DRV_IF.enable<=req.enable;
-    `DRV_IF.data_in<=req.data_in;
-    `DRV_IF.addr<=req.addr;
+    `DRV_IF.we<=req.we;
+    `DRV_IF.re<=req.re;
+    `DRIV_IF.waddr<=req.waddr;
+    `DRIV_IF.raddr<=req.raddr;
+    `DRIV_IF.data_in<=req.data_in;
     seq_item_port.item_done(req);
   endtask
 endclass
