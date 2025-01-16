@@ -1,4 +1,4 @@
-`include "spram.v"
+`include "dpram.v"
 `include "interface.sv"
 
 module tb_top;
@@ -19,7 +19,7 @@ module tb_top;
   bit clk, reset:
   
   my_if vif(.clk(clk),.reset(reset));
-  spram dut(.clk(clk),.reset(reset),.enable(vif.enable),.data_in(vif.data_in),.addr(vif.addr),.data_out(vif.data_out));
+  dpram dut(.clk(clk),.reset(reset),.we(vif.we),.re(vif.re),.waddr(vif.waddr),.raddr(vif.raddr),.data_in(vif.data_in),.data_out(vif.data_out));
   
   initial begin
     uvm_config_db#(virtual my_if)::set(uvm_root::get(),"*","vif",vif);
@@ -27,7 +27,7 @@ module tb_top;
     
   initial begin
     clk=0; reset=1;
-    #20;
+    #10;
     reset=0;
   end
 
