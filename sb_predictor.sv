@@ -9,11 +9,12 @@ class sb_predictor extends uvm_subscriber#(my_transaction);
     
   virtual function void build_phase(uvm_phase phase);
     super.build_phase(phase);
-    results_ap=new("results_ap", this);
+    results_ap=new("results_ap",this);
   endfunction
     
   function void write(my_transaction t);
     my_transaction exp_tr;
+    
     exp_tr=sb_calc_exp(t);
     results_ap.write(exp_tr);
   endfunction
@@ -22,22 +23,25 @@ class sb_predictor extends uvm_subscriber#(my_transaction);
 endclass
     
 function my_transaction sb_predictor::sb_calc_exp(my_transaction t);
-  static bit [7:0] mem [15:0];
-  my_transaction trans=my_transaction::type_id::create("my_trans");
+  static bit [7:0]exp_mem[15:0];
+  my_transaction trans=my_transaction::type_id::create("trans");
+  
   trans.copy(t);
   if(~trans.reset) begin
-    if(trans.enable) begin
-      mem [trans.addr]=trans.data_in;
+    if(trans.we) begin
+      exp_mem[trans.waddr]=trans.data_in;
     end
       
     else begin
-      trans.data_out<=mem[trans.addr];
+      trans.data_out<=exp_mem[trans.raddr];
     end
     
   end
     
   else begin
-    trans.data_out=trans.data_out;
+    for(int i=0;i<=15;i++)begin
+      exp_mem[i]<=8'h00;
+    end
   end
     
   return trans;
