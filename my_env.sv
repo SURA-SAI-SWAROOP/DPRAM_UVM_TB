@@ -10,8 +10,8 @@ class my_env extends uvm_env;
     
   virtual function void build_phase(uvm_phase phase);
     super.build_phase(phase);
-    agnt=my_agent::type_id::create("agnt", this);
-    scb=my_scoreboard:: type_id::create("scb", this);
+    agnt=my_agent::type_id::create("agnt",this);
+    scb=my_scoreboard:: type_id::create("scb",this);
   endfunction
     
   virtual function void connect_phase(uvm_phase phase);
